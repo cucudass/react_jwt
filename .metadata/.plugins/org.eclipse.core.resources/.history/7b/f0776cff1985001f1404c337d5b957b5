@@ -1,0 +1,38 @@
+package com.boot.security.jwt.filter;
+
+import java.io.IOException;
+
+import org.springframework.web.filter.OncePerRequestFilter;
+
+import com.boot.security.jwt.constants.SecurityConstants;
+import com.boot.security.jwt.provider.JwtTokenProvider;
+
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class JwtRequestFilter extends OncePerRequestFilter {
+	
+	private final JwtTokenProvider jwtTokenProvider;
+	
+	//생성자
+	public JwtRequestFilter(JwtTokenProvider jwtTokenProvider) {
+		this.jwtTokenProvider = jwtTokenProvider;
+	}
+
+	//내부에 실행되는 필터
+	@Override
+	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+		log.info("@# doFilterInternal()");
+		//Authorization: HTTP 헤더에서 토큰을 가져옴
+		String header = request.getHeader(SecurityConstants.TOKEN_HEADER);
+		log.info("@# Authorization => " + header);
+		
+		if(header == null || header.length() == 0) {
+			
+		}
+	}
+}

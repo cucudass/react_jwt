@@ -1,0 +1,5 @@
+package com.boot.security;
+
+public class CustomUserDetailsService {
+
+}

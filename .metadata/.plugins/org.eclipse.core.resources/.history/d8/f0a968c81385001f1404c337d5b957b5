@@ -1,0 +1,44 @@
+package com.boot.security.jwt.filter;
+
+import javax.security.sasl.AuthenticationException;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.boot.security.jwt.constants.SecurityConstants;
+import com.boot.security.jwt.provider.JwtTokenProvider;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
+
+//인증 시도 메소드
+//인증 성공 메소드
+@Slf4j
+public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+	private final AuthenticationManager authenticationManager;
+	private final JwtTokenProvider jwtTokenProvider;
+	
+	public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtTokenProvider jwtTokenProvider) {
+		this.authenticationManager = authenticationManager;
+		this.jwtTokenProvider = jwtTokenProvider;
+		// /login: 필터 url 경로 설정
+		setFilterProcessesUrl(SecurityConstants.AUTH_LOGIN_URL);
+	}
+	
+	//인증 시도 메소드
+	// /login 경로로 아이디, 비밀번호를 요청하면 이 필터에서 걸려 인증을 시도
+	@Override
+	public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse responese) throws AuthenticationException {
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		
+		log.info("@# username => " + username);
+		log.info("@# password => " + password);
+		//사용자 인증정보 객체 생성 -> 아이디, 비밀번호
+		Authentication authentication = new UsernamePasswordAuthenticationToken(username, password);
+		return super.attemptAuthentication(request, responese);
+	}
+}

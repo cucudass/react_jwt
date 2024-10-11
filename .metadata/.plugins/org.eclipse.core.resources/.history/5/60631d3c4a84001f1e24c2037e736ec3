@@ -1,0 +1,10 @@
+spring.application.name=react_jwt
+
+#Database config
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.datasource.url=jdbc:mysql://localhost:3306/jwt
+spring.datasource.username=bts
+spring.datasource.password=1234
+
+#Mybatis Mapper
+mybatis.mapper-locations=classpath:mybatis/mapper/**/**.xml

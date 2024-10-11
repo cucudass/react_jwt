@@ -1,0 +1,4 @@
+spring.application.name=react_jwt
+
+#Mybatis Mapper
+mybatis.mapper-locations=classpath:mybatis/mapper/**/**.xml

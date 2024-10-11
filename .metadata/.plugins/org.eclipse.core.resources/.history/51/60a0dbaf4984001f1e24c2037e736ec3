@@ -1,0 +1,66 @@
+package com.boot.config;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.web.SecurityFilterChain;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Configuration
+@EnableWebSecurity
+@Slf4j
+public class SecurityConfig {
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	// AuthenticationManager 필터 설정
+	@Bean
+	public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
+		log.info("@# authenticationManager");
+		log.info("@# authenticationConfiguration => " + authenticationConfiguration);
+		this.authenticationManager = authenticationConfiguration.getAuthenticationManager();
+		
+		return authenticationManager;
+	}
+	
+	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+		log.info("@# securityFilterChain()");
+		log.info("@# http => " + http);
+		
+		//폼 기반 로그인 비활성화
+		http.formLogin(login -> login.disable());
+		//http 기반 인증 비활성화
+		http.httpBasic(basic -> basic.disable());
+		//CSRF(Corss-Site Request Forgery) Cors Policy 공격 방어 기능 비활성화
+		http.csrf(csrf -> csrf.disable());
+		
+		//필터 설정(filter Chain)
+		
+		//인가 설정
+		http.authorizeHttpRequests(authorizeRequests -> authorizeRequests.
+				/* requestMatchers(PathRequest.toStaticResources().atCommonLocations()))*/
+				requestMatchers("/").permitAll().
+				requestMatchers("/login").permitAll().
+				requestMatchers("/users/**").permitAll().
+				requestMatchers("/admin/**").hasRole("ADMIN").
+				anyRequest().authenticated()
+				);
+		
+		//인증 설정
+		
+				
+		return null;
+	}
+	
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		
+	}
+}

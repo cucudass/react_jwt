@@ -1,0 +1,6 @@
+package com.boot.security.jwt.filter;
+
+@sl4
+public class JwtRequestFilter {
+
+}

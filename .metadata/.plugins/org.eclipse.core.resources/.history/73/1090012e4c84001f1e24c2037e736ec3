@@ -1,0 +1,7 @@
+package com.boot.prop;
+
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+@ConfigurationProperties("com.boot")
+public class JwtProps {
+}

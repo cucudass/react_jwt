@@ -1,0 +1,19 @@
+package com.boot.dao;
+
+import com.boot.dto.Users;
+
+public interface UserMapper {
+	//회원 등록
+	public int insert(Users users);
+	//회원 조회
+	public int select(int userNo);
+	//로그인
+	public int login(String user_id);
+	//회원 수정
+	public int udpate(Users users);
+	//회원 삭제
+	public int delete(String user_id);
+	
+	//회원 등록
+		public int insert(Users users);
+}

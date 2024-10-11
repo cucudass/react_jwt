@@ -1,0 +1,69 @@
+package com.boot.service;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
+import com.boot.dao.UserMapper;
+import com.boot.dto.UserAuth;
+import com.boot.dto.Users;
+
+import lombok.extern.slf4j.Slf4j;
+
+@Service("UserService")
+@Slf4j
+public class UserServiceImpl implements UserService { 
+	
+	@Autowired
+	private UserMapper userMapper;
+	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	@Override
+	public int insert(Users users) {
+		log.info("@# insert()");
+		log.info("@# users => " + users);
+		
+		String userPw = users.getUserPw();
+		String encodePw = passwordEncoder.encode(userPw); //비밀번호 암호화
+		users.setUserPw(encodePw);
+		
+		//회원 등록
+		int result = userMapper.insert(users);
+		
+		//권한 등록
+		if(result > 0) {
+			UserAuth userAuth = new UserAuth();
+			userAuth.setUser_id(users.getUserId());
+			userAuth.setAuth("ROLE_USER"); //ROLE_USER 기본 권한
+			result = userMapper.insertAuth(userAuth);
+		}
+		
+		return result;
+	}
+
+	@Override
+	public int select(int userNo) {
+		return userMapper.select(userNo);
+	}
+
+	@Override
+	public int login(String user_id) {
+		log.info("@# login()");
+		log.info("@# users => " + users);
+		return 0;
+	}
+
+	@Override
+	public int udpate(Users users) {
+		log.info("@# update()");
+		return 0;
+	}
+
+	@Override
+	public int delete(String user_id) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+}

@@ -1,0 +1,13 @@
+package com.boot.dto;
+
+import lombok.Data;
+
+@Data
+public class Users {
+	private int no;
+	private String user_id;
+	private String user_pw;
+	private String name;
+	private String email;
+	private int enabled;
+}
