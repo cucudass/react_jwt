@@ -1,8 +1,0 @@
-package com.boot.security.jwt.constants;
-
-public class ScurityConstants {
-	public static final String TOKEN_HEADER = "Authoriaztion";
-	public static final String TOKEN_HEADER = "Authoriaztion";
-	public static final String TOKEN_HEADER = "Authoriaztion";
-	public static final String TOKEN_HEADER = "Authoriaztion";
-}

@@ -1,8 +1,0 @@
-package com.boot.security.jwt.constants;
-
-public class ScurityConstants {
-	public static final String TOKEN_HEADER = "Authoriaztion";
-	public static final String TOKEN_PREFIX = "Bearer ";
-	public static final String TOKEN_TYPE = "JWT";
-	public static final String AUTH_LOGIN_URL = "/login";
-}
